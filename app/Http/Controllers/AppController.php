@@ -32,11 +32,6 @@ class AppController
         return (new Users($request))->logout();
     }
 
-    public function upload(Request $request)
-    {
-        return (new Upload($request))->uploadPhoto();
-    }
-
     public function personals(Request $request)
     {
         return (new Personals($request))->saveData();
@@ -44,10 +39,13 @@ class AppController
 
     public function generics(Request $request)
     {
-        //$dataArr = (new Generics($request))->saveData();
+        return (new Generics($request))->saveData();
     }
 
-
+    public function upload(Request $request)
+    {
+        return (new Upload($request))->uploadPhoto();
+    }
 
     public function download(Request $request)
     {

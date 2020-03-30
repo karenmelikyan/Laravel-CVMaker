@@ -43,8 +43,11 @@ class Generics
      */
     private function generateOk(): array
     {
-        return[
-            'cv_step' => 3,
+        return [
+            'message' => '',
+            'cv_step' => 2,
+            'user'    => -2,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 
@@ -54,9 +57,11 @@ class Generics
      */
     private function generateWarning(string $warningMessage): array
     {
-        return[
-            'cv_step' => 2,
+        return [
             'message' => $warningMessage,
+            'cv_step' => 1,
+            'user'    => -2,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 

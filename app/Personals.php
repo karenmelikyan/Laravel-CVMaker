@@ -72,7 +72,6 @@ class Personals
     {
         return $this->addOne([
             'user_id'   => $this->request->session()->get('user_id'),
-            'pic_path'  => $this->request->session()->get('pic_path'),
             'name'      => $this->request->name,
             'last_name' => $this->request->last_name,
             'address'   => $this->request->address,

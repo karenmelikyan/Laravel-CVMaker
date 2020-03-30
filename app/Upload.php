@@ -22,10 +22,13 @@ class Upload
     {
         if($picPath = $this->fileUpload()){
             $this->request->session()->put('pic_path', $this->hostName . '/' . $picPath);
-            return $this->generateOK();
+            //return $this->generateOK();
+            return redirect('/thanks');
         }
 
         return $this->generateWarning('Photo not uploaded ...');
+
+
     }
 
     /**
@@ -37,7 +40,7 @@ class Upload
             'message' => '',
             'cv_step' => 1,
             'user'    => -2,
-            'username'=> $this->request->username,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 
@@ -51,7 +54,7 @@ class Upload
             'message' => $warningMessage,
             'cv_step' => 0,
             'user'    => -2,
-            'username'=> $this->request->username,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 

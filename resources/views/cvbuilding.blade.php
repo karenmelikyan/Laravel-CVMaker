@@ -80,7 +80,7 @@
       *
       *
       *
-      * UPLOAD PHOTO PART
+      * PERSONALS DATA SAVE PART
       *
       *
       *
@@ -103,58 +103,7 @@
                 </thead>
             </table>
         </div>
-        <form method="post" action="/index.php/upload" enctype="multipart/form-data">
-            @csrf
-            __
-            <br>
-            <br>
-            <br>
-            __
-            <br>
-            <br>
-            <br>
-            __
-            <br>
-            <br>
-            <br>
-            <input type="file" name="file" class="small">
-            <br>
-            <br>
-            <div>
-                <button type="submit" class="btn btn-primary">Upload Photo</button>
-            </div>
-        </form>
-    </template>
-
-    {{--
-      *
-      *
-      *
-      *
-      * PERSONALS DATA SAVE PART
-      *
-      *
-      *
-      *
-      *
-      --}}
-    <template v-if="cv_step == 1">
-        <button  @click="logout()" class="small">log out</button>
-        <br>
-        <br>
-        <h5>Hello, @{{username}}!</h5>
-        <div class="card-body">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>
-                        <h2>Welcome to CV Maker</h2>
-                    </th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-        @{{ message }}
+        <h5>@{{ message }}</h5>
         <form name="personals">
             <div class="form-group">
                 <input  name="name" type="text" placeholder="name" class="form-control"></input>
@@ -182,8 +131,58 @@
         </div>
     </template>
 
+    {{--
+      *
+      *
+      *
+      *
+      * GENERIC DATA SAVE PART
+      *
+      *
+      *
+      *
+      *
+      --}}
+    <template v-if="cv_step == 1">
+        <button  @click="logout()" class="small">log out</button>
+        <br>
+        <br>
+        <h5>Hello, @{{username}}!</h5>
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <h2>Welcome to CV Maker</h2>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <h5>@{{ message }}</h5>
+        <form name="generic">
+            <div class="form-group">
+                    <textarea name="about"
+                        placeholder="write something ABOUT yourself through line breaks (enter)" name="about" type="text" rows="3" class="form-control">
+                    </textarea>
+            </div>
 
+            <div class="form-group">
+                    <textarea name="experience"
+                        placeholder="list your job EXPERIENCE through line breaks ..." name="experience" type="text" rows="3" class="form-control">
+                    </textarea>
+            </div>
 
+            <div class="form-group">
+                    <textarea name="skills"
+                        placeholder="list your job SKILLS through line breaks ..." name="skills" type="text" rows="3" class="form-control">
+                    </textarea>
+            </div>
+        </form>
+        <div>
+            <button @click="genericSave()" class="btn btn-primary">Save</button>
+        </div>
+    </template>
 
     <script>
         var vue = new Vue({
@@ -197,22 +196,38 @@
 
             methods:{
 
-                // personalsSave(){
-                //
-                //     let name = document.personals.name.value;
-                //     let last_name = document.personals.last_name.value;
-                //     let address = document.personals.address.value;
-                //     let phone = document.personals.phone.value;
-                //     let email = document.personals.email.value;
-                //
-                //     axios.get('/index.php/personals/' + name + '/' + last_name + '/' + address + '/' + phone + '/' + email)
-                //         .then(response => {
-                //             this.message  = response.data.message;
-                //             this.cv_step  = response.data.cv_step;
-                //             this.user     = response.data.user;
-                //             this.username = response.data.username;
-                //         })
-                // },
+                genericSave(){
+
+                    let about = document.generic.about.value;
+                    let experience = document.generic.experience.value;
+                    let skills = document.generic.skills.value;
+
+                    axios.get('/index.php/generics/' + about + '/' + experience + '/' + skills)
+                        .then(response =>{
+                            this.message  = response.data.message;
+                            this.cv_step  = response.data.cv_step;
+                            this.user     = response.data.user;
+                            this.username = response.data.username;
+                        })
+                },
+
+                personalsSave(){
+
+                    let name = document.personals.name.value;
+                    let last_name = document.personals.last_name.value;
+                    let address = document.personals.address.value;
+                    let phone = document.personals.phone.value;
+                    let email = document.personals.email.value;
+
+                    axios.get('/index.php/personals/' + name + '/' + last_name + '/' + address + '/' + phone + '/' + email)
+                        .then(response => {
+
+                            this.message  = response.data.message;
+                            this.cv_step  = response.data.cv_step;
+                            this.user     = response.data.user;
+                            this.username = response.data.username;
+                        })
+                },
 
                 // upload(){
                 //     axios.get('/index.php/upload')
@@ -225,6 +240,7 @@
                 // },
 
                 logout(){
+
                     axios.get('/index.php/logout')
                         .then(response => {
                             this.message  = response.data.message;

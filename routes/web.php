@@ -19,14 +19,15 @@ Route::get('/login/{username}/{password}', 'AppController@login');
 Route::get('/logout', 'AppController@logout');
 
 //Route::middleware(['CheckSession'])->group(function(){
-    Route::post('/upload', 'AppController@upload');
+
     Route::get('/personals/{name}/{last_name}/{address}/{phone}/{email}', 'AppController@personals');
-    Route::get('/generics', 'AppController@generics');
+    Route::get('/generics/{about}/{experience}/{skills}', 'AppController@generics');
+    Route::post('/upload', 'AppController@upload');
     Route::get('/download', 'AppController@download');
+    Route::get('/thanks', 'AppController@thanks');
 //});
 
-Route::get('/test', 'AppController@test');
-Route::post('/test', 'AppController@test');
+
 
 
 
