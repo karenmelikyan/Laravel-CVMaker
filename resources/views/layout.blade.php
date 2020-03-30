@@ -8,6 +8,8 @@
     <title>CV Maker</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- Styles -->
     <style>
         html, body {
@@ -9386,7 +9388,13 @@
 <body>
 <div class="flex-center position-ref full-height">
     <div class="content">
+        <div id="app">
 
+@yield('content')
 
-
+        </div>
+    </div>
+</div>
+</body>
+</html>
 

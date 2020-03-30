@@ -18,7 +18,7 @@ class Upload
     /**
      * @return array|null
      */
-    public function uploadPhoto(): ?array
+    public function uploadPhoto()
     {
         if($picPath = $this->fileUpload()){
             $this->request->session()->put('pic_path', $this->hostName . '/' . $picPath);
@@ -34,7 +34,10 @@ class Upload
     private function generateOK(): array
     {
         return[
-            'cv_step' => 1
+            'message' => '',
+            'cv_step' => 1,
+            'user'    => -2,
+            'username'=> $this->request->username,
         ];
     }
 
@@ -45,8 +48,10 @@ class Upload
     private function generateWarning(string $warningMessage): array
     {
         return[
-            'cv_step' => 0,
             'message' => $warningMessage,
+            'cv_step' => 0,
+            'user'    => -2,
+            'username'=> $this->request->username,
         ];
     }
 

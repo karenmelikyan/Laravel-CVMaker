@@ -21,14 +21,31 @@ class Users
     /**
      * @return string
      */
-    public function registration(): ?string
+    public function registration(): array
     {
         if($this->isFormEmpty(['username', 'password', 'passConf'])){
-            return 'All fields must be filled';
+            return [
+                'message' => 'All fields must be filled',
+                'cv_step' => -1,
+                'user'    => 0,
+                'username'=> '',
+            ];
+
         }else if($this->isUsernameExist($this->request->username)){
-            return '`' . $this->request->username . '` username already exists';
+            return [
+                'message' =>  '`' . $this->request->username . '` username already exists',
+                'cv_step' => -1,
+                'user'    => 0,
+                'username'=> '',
+            ];
+
         }else if($this->request->password !== $this->request->passConf){
-            return 'The password do not confirmed';
+            return [
+                'message' => 'Password not confirmed',
+                'cv_step' => -1,
+                'user'    => 0,
+                'username'=> '',
+            ];
         }
 
         $this->addOne([
@@ -39,38 +56,70 @@ class Users
         $this->request->session()->put('user_id', $this->getUserId());
         $this->request->session()->put('username', $this->request->username);
 
-        return null;
+        return [
+            'message' => '',
+            'cv_step' => 0,
+            'user'    => -2,
+            'username'=> $this->request->username,
+        ];
     }
 
     /**
      * @return string|null
      */
-    public function login(): ?string
+    public function login(): array
     {
         if($this->isFormEmpty(['username', 'password'])){
-            return 'All fields must be filled';
+            return [
+                'message' => 'All fields must be filled',
+                'cv_step' => -1,
+                'user'    => 1,
+                'username'=> '',
+            ];
+
         }else if(!$this->isUsernameExist($this->request->username)) {
-            return 'Something went wrong';
+            return [
+                'message' => 'Something went wrong',
+                'cv_step' => -1,
+                'user'    => 1,
+                'username'=> '',
+            ];
+
         }else if(!$this->isPasswordMatch($this->request->username, $this->request->password)){
-            return 'Something went wrong';
+            return [
+                'message' => 'Something went wrong',
+                'cv_step' => -1,
+                'user'    => 1,
+                'username'=> '',
+            ];
         }
 
         $this->request->session()->put('user_id', $this->getUserId());
         $this->request->session()->put('username', $this->request->username);
 
-        return null;
+        return [
+            'message' => '',
+            'cv_step' => 0,
+            'user'    => -2,
+            'username'=> $this->request->username,
+        ];
     }
 
     /**
      * @return string|null
      */
-    public function logout(): ?string
+    public function logout(): array
     {
         $this->request->session()->put('user_id', false);
         $this->request->session()->put('pic_path', false);
         $this->request->session()->put('username', false);
 
-        return null;
+        return [
+            'message' => '',
+            'cv_step' => -1,
+            'user'    => -1,
+            'username'=> '',
+        ];
     }
 
     /**

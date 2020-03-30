@@ -1,3 +1,4 @@
+<template v-if="user == 0 || user == 1 || user == -1">
 <h5>Hi!</h5>
 <div class="card-body">
     <table class="table table-hover table-striped">
@@ -10,12 +11,14 @@
         </thead>
     </table>
 </div>
-<div id="reglog">
-    <a @click="reg()">Registration /</a>
-    <a @click="log()">Login</a>
-    <br>
-    <br>
-    <h5>{{$message}}</h5></br>
+
+<a @click="reg()">Registration /</a>
+<a @click="log()">Login</a>
+<br>
+<br>
+<h5>{{ message }}</h5></br>
+</template>
+
     <template v-if="user == 0">
         <form name="registration">
             <div class="form-group">
@@ -52,33 +55,7 @@
             </div>
         </form>
         <div>
-            <button @click="login()" class="btn btn-primary">Log In</button>
+            <button @click="login()" class="btn btn-primary">Log in</button>
         </div>
     </template>
-</div>
 
-<script>
-    var vue = new Vue({
-        el: '#reglog',
-        data:{
-            user: -1,
-        },
-        methods:{
-            registration(){
-
-            },
-
-            login(){
-
-            },
-
-            reg(){
-                this.user = 0;
-            },
-
-            log(){
-                this.user = 1;
-            },
-        },
-    });
-</script>

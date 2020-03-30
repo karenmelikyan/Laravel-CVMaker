@@ -25,7 +25,7 @@ class Personals
     /**
      * @return array|null
      */
-    public function saveData(): ?array
+    public function saveData(): array //?array
     {
         if($this->checkFilling()){
             if($this->save()){
@@ -43,8 +43,11 @@ class Personals
      */
     private function generateOk(): array
     {
-        return[
-            'cv_step' => 2,
+        return [
+            'message' => '',
+            'cv_step' => 1,
+            'user'    => -2,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 
@@ -54,9 +57,11 @@ class Personals
      */
     private function generateWarning(string $warningMessage): array
     {
-        return[
-            'cv_step' => 1,
+        return [
             'message' => $warningMessage,
+            'cv_step' => 0,
+            'user'    => -2,
+            'username'=> $this->request->session()->get('username'),
         ];
     }
 

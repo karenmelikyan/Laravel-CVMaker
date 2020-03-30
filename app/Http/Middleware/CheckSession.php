@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckSession
 {
@@ -15,7 +16,10 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
-
-        return $next($request);
+//        if(!$username = $request->session()->get('username')){
+//            return Redirect::to('');
+//        }
+//
+//        return $next($request);
     }
 }
