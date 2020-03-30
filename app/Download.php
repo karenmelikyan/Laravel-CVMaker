@@ -18,7 +18,7 @@ class Download
     /**
      * @return array|null
      */
-    public function downloadCV(): ?array
+    public function downloadCV(): void
     {
         $htmlTemplate = $this->buildTemplate();
         $fileName = $this->generateRandomFileName();
@@ -26,9 +26,9 @@ class Download
         file_put_contents('cv/' . $fileName, $htmlTemplate);
         $this->fileForceDownload('cv/' . $fileName);
 
-        return[
-            'cv_step' => 3,
-        ];
+//        return[
+//            'cv_step' => 3,
+//        ];
     }
 
     /**

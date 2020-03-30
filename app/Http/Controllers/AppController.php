@@ -42,14 +42,15 @@ class AppController
         return (new Generics($request))->saveData();
     }
 
-    public function upload(Request $request)
-    {
-        return (new Upload($request))->uploadPhoto();
-    }
+//    public function upload(Request $request)
+//    {
+//        return (new Upload($request))->uploadPhoto();
+//    }
 
     public function download(Request $request)
     {
-        //$dataArr = (new Download($request))->downloadCV();
+         (new Upload($request))->uploadPhoto();
+         (new Download($request))->downloadCV();
     }
 
 }

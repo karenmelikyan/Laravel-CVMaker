@@ -1,5 +1,6 @@
 @extends('layout')
 @section('content')
+
     {{--
       *
       *
@@ -12,6 +13,7 @@
       *
       *
       --}}
+
     <template v-if="user == 0 || user == 1 || user == -1">
         <h5>Hi!</h5>
         <div class="card-body">
@@ -87,6 +89,7 @@
       *
       *
       --}}
+
     <template v-if="cv_step == 0">
         <button  @click="logout()" class="small">log out</button>
         <br>
@@ -143,6 +146,7 @@
       *
       *
       --}}
+
     <template v-if="cv_step == 1">
         <button  @click="logout()" class="small">log out</button>
         <br>
@@ -182,6 +186,59 @@
         <div>
             <button @click="genericSave()" class="btn btn-primary">Save</button>
         </div>
+    </template>
+
+    {{--
+      *
+      *
+      *
+      *
+      * PHOTO UPLOAD/CV DOWNLOAD PART
+      *
+      *
+      *
+      *
+      *
+      --}}
+
+    <template v-if="cv_step == 2">
+        <button  @click="logout()" class="small">log out</button>
+        <br>
+        <br>
+        <h5>Hello, @{{username}}!</h5>
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <h2>Welcome to CV Maker</h2>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <h5>@{{ message }}</h5>
+        <form method="post" action="/index.php/download" enctype="multipart/form-data">
+            @csrf
+            __
+            <br>
+            <br>
+            <br>
+            __
+            <br>
+            <br>
+            <br>
+            __
+            <br>
+            <br>
+            <br>
+            <input type="file" name="file" class="small">
+            <br>
+            <br>
+            <div>
+                <button type="submit" class="btn btn-primary">Download CV</button>
+            </div>
+        </form>
     </template>
 
     <script>
@@ -251,6 +308,20 @@
 
                 },
 
+                login(){
+
+                    let username = document.login.username.value;
+                    let password = document.login.password.value;
+
+                    axios.get('/index.php/login/' + username + '/' + password)
+                        .then(response => {
+                            this.message  = response.data.message;
+                            this.cv_step  = response.data.cv_step;
+                            this.user     = response.data.user;
+                            this.username = response.data.username;
+                        })
+                },
+
                 registration(){
 
                     let username = document.registration.username.value;
@@ -266,19 +337,6 @@
                         })
                 },
 
-                login(){
-
-                    let username = document.login.username.value;
-                    let password = document.login.password.value;
-
-                    axios.get('/index.php/login/' + username + '/' + password)
-                        .then(response => {
-                            this.message  = response.data.message;
-                            this.cv_step  = response.data.cv_step;
-                            this.user     = response.data.user;
-                            this.username = response.data.username;
-                        })
-                },
 
                 reg(){
                     this.user = 0;

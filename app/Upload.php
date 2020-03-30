@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class Upload
 {
+    use DataRepository;
+
     private string $hostName = 'http://cvmaker.local';
     private Request $request;
 
@@ -23,40 +25,40 @@ class Upload
         if($picPath = $this->fileUpload()){
             $this->request->session()->put('pic_path', $this->hostName . '/' . $picPath);
             //return $this->generateOK();
-            return redirect('/thanks');
+            //return redirect('/thanks');
         }
 
-        return $this->generateWarning('Photo not uploaded ...');
+        //return $this->generateWarning('Photo not uploaded ...');
 
 
     }
 
-    /**
-     * @return array
-     */
-    private function generateOK(): array
-    {
-        return[
-            'message' => '',
-            'cv_step' => 1,
-            'user'    => -2,
-            'username'=> $this->request->session()->get('username'),
-        ];
-    }
-
-    /**
-     * @param string $message
-     * @return array
-     */
-    private function generateWarning(string $warningMessage): array
-    {
-        return[
-            'message' => $warningMessage,
-            'cv_step' => 0,
-            'user'    => -2,
-            'username'=> $this->request->session()->get('username'),
-        ];
-    }
+//    /**
+//     * @return array
+//     */
+//    private function generateOK(): array
+//    {
+//        return[
+//            'message' => '',
+//            'cv_step' => 1,
+//            'user'    => -2,
+//            'username'=> $this->request->session()->get('username'),
+//        ];
+//    }
+//
+//    /**
+//     * @param string $message
+//     * @return array
+//     */
+//    private function generateWarning(string $warningMessage): array
+//    {
+//        return[
+//            'message' => $warningMessage,
+//            'cv_step' => 0,
+//            'user'    => -2,
+//            'username'=> $this->request->session()->get('username'),
+//        ];
+//    }
 
     /**
      * @return string

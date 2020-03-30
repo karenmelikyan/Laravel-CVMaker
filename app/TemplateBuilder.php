@@ -62,6 +62,9 @@ trait TemplateBuilder
         /**get ID of current user from session*/
         $user_id = $this->request->session()->get('user_id');
 
+        /**get current uploaded user picture path */
+        $pic_path = $this->request->session()->get('pic_path');
+
         /**get data from 'personals` table by current user's ID*/
         $personalsArr = DB::table('personals')
             ->where(['user_id' => $user_id])->get();
@@ -77,7 +80,7 @@ trait TemplateBuilder
         $genericsArr = $genericsArr[count($genericsArr) - 1];
 
         return [
-            'pic_path'   => $personalsArr->pic_path,
+            'pic_path'   => $pic_path,
             'name'       => $personalsArr->name,
             'last_name'  => $personalsArr->last_name,
             'address'    => $personalsArr->address,

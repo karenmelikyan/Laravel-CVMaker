@@ -23,7 +23,7 @@ Route::get('/logout', 'AppController@logout');
     Route::get('/personals/{name}/{last_name}/{address}/{phone}/{email}', 'AppController@personals');
     Route::get('/generics/{about}/{experience}/{skills}', 'AppController@generics');
     Route::post('/upload', 'AppController@upload');
-    Route::get('/download', 'AppController@download');
+    Route::post('/download', 'AppController@download');
     Route::get('/thanks', 'AppController@thanks');
 //});
 
