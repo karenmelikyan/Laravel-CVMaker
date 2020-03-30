@@ -42,15 +42,20 @@ class AppController
         return (new Generics($request))->saveData();
     }
 
-//    public function upload(Request $request)
-//    {
-//        return (new Upload($request))->uploadPhoto();
-//    }
-
     public function download(Request $request)
     {
          (new Upload($request))->uploadPhoto();
          (new Download($request))->downloadCV();
+    }
+
+    public function reset(Request $request)
+    {
+        return[
+            'user' => -2,
+            'message' => '',
+            'cv_step' => 0,
+            'username' => $request->session()->get('username'),
+        ];
     }
 
 }

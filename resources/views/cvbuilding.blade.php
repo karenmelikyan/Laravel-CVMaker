@@ -72,6 +72,7 @@
                 <input name="password" type="password" class="form-control"></input>
             </div>
         </form>
+
         <div>
             <button @click="login()" class="btn btn-primary">Log in</button>
         </div>
@@ -183,6 +184,7 @@
                     </textarea>
             </div>
         </form>
+
         <div>
             <button @click="genericSave()" class="btn btn-primary">Save</button>
         </div>
@@ -193,7 +195,7 @@
       *
       *
       *
-      * PHOTO UPLOAD/CV DOWNLOAD PART
+      * PHOTO UPLOAD / CV DOWNLOAD PART
       *
       *
       *
@@ -239,6 +241,8 @@
                 <button type="submit" class="btn btn-primary">Download CV</button>
             </div>
         </form>
+        <br>
+        <a @click="reset()"><< Reset & start again</a>
     </template>
 
     <script>
@@ -252,6 +256,17 @@
             },
 
             methods:{
+
+                reset(){
+
+                    axios.get('/index.php/reset')
+                        .then(response =>{
+                            this.message  = response.data.message;
+                            this.cv_step  = response.data.cv_step;
+                            this.user     = response.data.user;
+                            this.username = response.data.username;
+                        })
+                },
 
                 genericSave(){
 
@@ -286,16 +301,6 @@
                         })
                 },
 
-                // upload(){
-                //     axios.get('/index.php/upload')
-                //         .then(response => {
-                //             this.message  = response.data.message;
-                //             this.cv_step  = response.data.cv_step;
-                //             this.user     = response.data.user;
-                //             this.username = response.data.username;
-                //          })
-                // },
-
                 logout(){
 
                     axios.get('/index.php/logout')
@@ -311,7 +316,7 @@
                 login(){
 
                     let username = document.login.username.value;
-                    let password = document.login.password.value;
+                    let password = document.login.password.value
 
                     axios.get('/index.php/login/' + username + '/' + password)
                         .then(response => {
@@ -337,7 +342,6 @@
                         })
                 },
 
-
                 reg(){
                     this.user = 0;
                 },
@@ -345,6 +349,7 @@
                 log(){
                     this.user = 1;
                 },
+
             }
         });
     </script>

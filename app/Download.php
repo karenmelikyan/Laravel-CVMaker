@@ -25,10 +25,6 @@ class Download
 
         file_put_contents('cv/' . $fileName, $htmlTemplate);
         $this->fileForceDownload('cv/' . $fileName);
-
-//        return[
-//            'cv_step' => 3,
-//        ];
     }
 
     /**

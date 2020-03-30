@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 class Users
 {
     use DataRepository;
-    use RequestValidator;
 
     private Request $request;
 
@@ -23,15 +22,7 @@ class Users
      */
     public function registration(): array
     {
-        if($this->isFormEmpty(['username', 'password', 'passConf'])){
-            return [
-                'message' => 'All fields must be filled',
-                'cv_step' => -1,
-                'user'    => 0,
-                'username'=> '',
-            ];
-
-        }else if($this->isUsernameExist($this->request->username)){
+        if($this->isUsernameExist($this->request->username)){
             return [
                 'message' =>  '`' . $this->request->username . '` username already exists',
                 'cv_step' => -1,
@@ -69,15 +60,7 @@ class Users
      */
     public function login(): array
     {
-        if($this->isFormEmpty(['username', 'password'])){
-            return [
-                'message' => 'All fields must be filled',
-                'cv_step' => -1,
-                'user'    => 1,
-                'username'=> '',
-            ];
-
-        }else if(!$this->isUsernameExist($this->request->username)) {
+        if(!$this->isUsernameExist($this->request->username)) {
             return [
                 'message' => 'Something went wrong',
                 'cv_step' => -1,
