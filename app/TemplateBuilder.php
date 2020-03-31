@@ -50,7 +50,7 @@ trait TemplateBuilder
         $endListing   = '</span></span></div>';
 
         $str = $startListing . $str;
-        $str = str_replace( "\n",  $endListing .  $startListing, $str);
+        $str = str_replace( '|*|',  $endListing . $startListing, $str);
         return $str .= $endListing;
     }
 

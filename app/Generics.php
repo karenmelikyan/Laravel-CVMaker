@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class Generics
 {
-    use DataRepository;
-    use RequestValidator;
+    use DataRepository, RequestValidator;
 
     private Request $request;
 

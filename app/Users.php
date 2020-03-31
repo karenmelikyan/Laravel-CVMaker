@@ -41,10 +41,12 @@ class Users
 
         $this->addOne([
             'username' => $this->request->username,
+            'email' => $this->request->email,
             'passwordHash' => Hash::make($this->request->password),
         ]);
 
         $this->request->session()->put('user_id', $this->getUserId());
+        $this->request->session()->put('email', $this->getUserEmail());
         $this->request->session()->put('username', $this->request->username);
 
         return [
@@ -78,6 +80,7 @@ class Users
         }
 
         $this->request->session()->put('user_id', $this->getUserId());
+        $this->request->session()->put('email', $this->getUserEmail());
         $this->request->session()->put('username', $this->request->username);
 
         return [
@@ -93,9 +96,10 @@ class Users
      */
     public function logout(): array
     {
-        $this->request->session()->put('user_id', false);
-        $this->request->session()->put('pic_path', false);
+        $this->request->session()->put('user_id',  false);
         $this->request->session()->put('username', false);
+        $this->request->session()->put('pic_path', false);
+        $this->request->session()->put('email',    false);
 
         return [
             'message' => '',
@@ -103,6 +107,21 @@ class Users
             'user'    => -1,
             'username'=> '',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    private function getUserEmail(): ?string
+    {
+        $arr = $this->getByFieldValue('username', $this->request->username)->all();
+        foreach ($arr as $elem){
+            if($elem->email){
+                return $elem->email;
+            }
+        }
+
+        return null;
     }
 
     /**

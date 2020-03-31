@@ -9,12 +9,14 @@ use App\Upload;
 use App\Personals;
 use App\Generics;
 use App\Download;
+use App\Jobs\SendCVLinkJob;
 
-class AppController
+
+class AppController extends Controller
 {
     public function index(Request $request)
     {
-        return view('cvbuilding');
+        return view('content');
     }
 
     public function registration(Request $request)
@@ -44,8 +46,7 @@ class AppController
 
     public function download(Request $request)
     {
-         (new Upload($request))->uploadPhoto();
-         (new Download($request))->downloadCV();
+        (new Download($request))->downloadCV();
     }
 
     public function reset(Request $request)

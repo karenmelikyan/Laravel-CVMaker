@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'AppController@index');
-Route::get('/registration/{username}/{password}/{passConf}', 'AppController@registration');
+Route::get('/registration/{username}/{email}/{password}/{passConf}', 'AppController@registration');
 Route::get('/login/{username}/{password}', 'AppController@login');
 Route::get('/logout', 'AppController@logout');
 
@@ -24,12 +24,8 @@ Route::get('/logout', 'AppController@logout');
     Route::get('/generics/{about}/{experience}/{skills}', 'AppController@generics');
     Route::post('/download', 'AppController@download');
     Route::get('/reset', 'AppController@reset');
+
 //});
-
-
-
-
-
 
 
 

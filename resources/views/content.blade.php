@@ -44,6 +44,11 @@
             </div>
 
             <div class="form-group">
+                <h6>email</h6>
+                <input name="email" type="email" class="form-control"></input>
+            </div>
+
+            <div class="form-group">
                 <h6>password</h6>
                 <input name="password" type="password" class="form-control"></input>
             </div>
@@ -168,19 +173,19 @@
         <form name="generic">
             <div class="form-group">
                     <textarea name="about"
-                        placeholder="write something ABOUT yourself through line breaks (enter)" name="about" type="text" rows="3" class="form-control">
+                              placeholder="write something ABOUT yourself through line breaks (enter)" name="about" type="text" rows="3" class="form-control">
                     </textarea>
             </div>
 
             <div class="form-group">
                     <textarea name="experience"
-                        placeholder="list your job EXPERIENCE through line breaks ..." name="experience" type="text" rows="3" class="form-control">
+                              placeholder="list your job EXPERIENCE through line breaks ..." name="experience" type="text" rows="3" class="form-control">
                     </textarea>
             </div>
 
             <div class="form-group">
                     <textarea name="skills"
-                        placeholder="list your job SKILLS through line breaks ..." name="skills" type="text" rows="3" class="form-control">
+                              placeholder="list your job SKILLS through line breaks ..." name="skills" type="text" rows="3" class="form-control">
                     </textarea>
             </div>
         </form>
@@ -271,8 +276,13 @@
                 genericSave(){
 
                     let about = document.generic.about.value;
+                    about = about.replace(/(?:\r\n|\r|\n)/g, '|*|');
+
                     let experience = document.generic.experience.value;
+                    experience = experience.replace(/(?:\r\n|\r|\n)/g, '|*|');
+
                     let skills = document.generic.skills.value;
+                    skills = skills.replace(/(?:\r\n|\r|\n)/g, '|*|');
 
                     axios.get('/index.php/generics/' + about + '/' + experience + '/' + skills)
                         .then(response =>{
@@ -330,10 +340,11 @@
                 registration(){
 
                     let username = document.registration.username.value;
+                    let email    = document.registration.email.value;
                     let password = document.registration.password.value;
                     let passConf = document.registration.passConf.value;
 
-                    axios.get('/index.php/registration/' + username + '/' + password + '/' + passConf)
+                    axios.get('/index.php/registration/' + username + '/' + email + '/' + password + '/' + passConf)
                         .then(response => {
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
@@ -354,4 +365,5 @@
         });
     </script>
 @endsection()
+
 

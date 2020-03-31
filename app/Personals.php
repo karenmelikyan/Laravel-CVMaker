@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 class Personals
 {
-    use DataRepository;
-    use RequestValidator;
+    use DataRepository, RequestValidator;
 
     private Request $request;
 
