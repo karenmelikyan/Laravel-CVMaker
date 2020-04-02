@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class Generics
 {
-    use DataRepository, RequestValidator;
+    use DataRepository;
 
     private Request $request;
 
@@ -26,15 +26,11 @@ class Generics
      */
     public function saveData(): ?array
     {
-        if($this->checkFilling()){
-            if($this->save()){
-                return  $this->generateOk();
-            }else{
-                return $this->generateWarning('Something went wrong! Try again');
-            }
-        }else{
-            return $this->generateWarning('All fields must be filled');
+        if($this->save()){
+            return  $this->generateOk();
         }
+
+        return $this->generateWarning('Something went wrong! Try again');
     }
 
     /**
@@ -77,15 +73,4 @@ class Generics
         ]);
     }
 
-    /**
-     * @return bool
-     */
-    private function checkFilling(): bool
-    {
-        return !$this->isFormEmpty([
-            'about',
-            'experience',
-            'skills'
-        ]);
-    }
 }

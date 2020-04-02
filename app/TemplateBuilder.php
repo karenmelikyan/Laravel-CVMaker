@@ -10,6 +10,9 @@ trait TemplateBuilder
 {
     private Request $request;
 
+    /**
+     * @return string|null
+     */
     private function buildTemplate(): ?string
     {
         $strTemp = '';
@@ -43,6 +46,9 @@ trait TemplateBuilder
     /**
      * @param string $str
      * @return string|null
+     *
+     * change symbols |*| to appropriate
+     * HTML for line breaks in CV
      */
     private function getDataWithListing(string $str): ?string
     {
@@ -56,6 +62,13 @@ trait TemplateBuilder
 
     /**
      * @return array|null
+     *
+     * We need only last writings of user
+     * cuz he can change mind in middle off
+     * filling out the fields and when it
+     * happened we dont' know. So, we take
+     * only last writings of all tables
+     * and create CV from the them.
      */
     private function getLastCvData(): ?array
     {

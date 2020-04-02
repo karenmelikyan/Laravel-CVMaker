@@ -3,28 +3,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GenericDataRequestValidator;
+use App\Http\Requests\LoginRequestValidator;
+use App\Http\Requests\PersonalDataRequestValidator;
+use App\Http\Requests\RegistRequestValidator;
 use Illuminate\Http\Request;
 use App\Users;
-use App\Upload;
 use App\Personals;
 use App\Generics;
 use App\Download;
-use App\Jobs\SendCVLinkJob;
 
-
-class AppController extends Controller
+class AppController
 {
     public function index(Request $request)
     {
         return view('content');
     }
 
-    public function registration(Request $request)
+    public function registration(RegistRequestValidator $request)
     {
         return (new Users($request))->registration();
     }
 
-    public function login(Request $request)
+    public function login(LoginRequestValidator $request)
     {
         return (new Users($request))->login();
     }
@@ -34,12 +35,12 @@ class AppController extends Controller
         return (new Users($request))->logout();
     }
 
-    public function personals(Request $request)
+    public function personals(PersonalDataRequestValidator $request)
     {
         return (new Personals($request))->saveData();
     }
 
-    public function generics(Request $request)
+    public function generics(GenericDataRequestValidator $request)
     {
         return (new Generics($request))->saveData();
     }

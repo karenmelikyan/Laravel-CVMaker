@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class Personals
 {
-    use DataRepository, RequestValidator;
+    use DataRepository;
 
     private Request $request;
 
@@ -26,15 +26,11 @@ class Personals
      */
     public function saveData(): array //?array
     {
-        if($this->checkFilling()){
-            if($this->save()){
-                return  $this->generateOk();
-            }else{
-                return $this->generateWarning('Something went wrong! Try again');
-            }
-        }else{
-             return $this->generateWarning('All fields must be filled');
+        if($this->save()){
+            return  $this->generateOk();
         }
+
+        return $this->generateWarning('Something went wrong! Try again');
     }
 
     /**
@@ -79,17 +75,4 @@ class Personals
             ]);
     }
 
-    /**
-     * @return bool
-     */
-    private function checkFilling(): bool
-    {
-        return !$this->isFormEmpty([
-            'name',
-            'last_name',
-            'address',
-            'phone',
-            'email'
-        ]);
-    }
 }

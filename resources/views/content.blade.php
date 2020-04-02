@@ -28,11 +28,11 @@
             </table>
         </div>
 
-        <a @click="reg()">Registration /</a>
+        <a @click="reg()">Registration/</a>
         <a @click="log()">Login</a>
         <br>
         <br>
-        <h5>@{{ message }}</h5></br>
+        <h6>@{{ message }}</h6></br>
     </template>
 
     {{-- Registration --}}
@@ -112,7 +112,7 @@
                 </thead>
             </table>
         </div>
-        <h5>@{{ message }}</h5>
+        <h6>@{{ message }}</h6>
         <form name="personals">
             <div class="form-group">
                 <input  name="name" type="text" placeholder="name" class="form-control"></input>
@@ -169,7 +169,7 @@
                 </thead>
             </table>
         </div>
-        <h5>@{{ message }}</h5>
+        <h6>@{{ message }}</h6>
         <form name="generic">
             <div class="form-group">
                     <textarea name="about"
@@ -224,7 +224,7 @@
                 </thead>
             </table>
         </div>
-        <h5>@{{ message }}</h5>
+        <h6>@{{ message }}</h6>
         <form method="post" action="/index.php/download" enctype="multipart/form-data">
             @csrf
             __
@@ -264,7 +264,7 @@
 
                 reset(){
 
-                    axios.get('/index.php/reset')
+                    axios.post('/index.php/reset')
                         .then(response =>{
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
@@ -276,81 +276,113 @@
                 genericSave(){
 
                     let about = document.generic.about.value;
-                    about = about.replace(/(?:\r\n|\r|\n)/g, '|*|');
-
                     let experience = document.generic.experience.value;
-                    experience = experience.replace(/(?:\r\n|\r|\n)/g, '|*|');
-
                     let skills = document.generic.skills.value;
-                    skills = skills.replace(/(?:\r\n|\r|\n)/g, '|*|');
 
-                    axios.get('/index.php/generics/' + about + '/' + experience + '/' + skills)
-                        .then(response =>{
+                    /** here we need to replace "\n" symbols to |*|
+                     * cuz JS will lost them when makes request, they
+                     * are needed in the further application logic
+                     */
+                    axios.post('/index.php/generics', {
+                        'about': about.replace(/(?:\r\n|\r|\n)/g, '|*|'),
+                        'experience': experience.replace(/(?:\r\n|\r|\n)/g, '|*|'),
+                        'skills': skills.replace(/(?:\r\n|\r|\n)/g, '|*|'),
+                    }).then(response =>{
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
                             this.user     = response.data.user;
                             this.username = response.data.username;
-                        })
+                        }).catch(error => {
+                        if(error.response.data.errors.about){
+                            this.message = error.response.data.errors.about;
+                        }else if(error.response.data.errors.experience){
+                            this.message = error.response.data.errors.experience;
+                        }else if(error.response.data.errors.skills){
+                            this.message = error.response.data.errors.skills;
+                        }
+                    });
                 },
 
                 personalsSave(){
 
-                    let name = document.personals.name.value;
-                    let last_name = document.personals.last_name.value;
-                    let address = document.personals.address.value;
-                    let phone = document.personals.phone.value;
-                    let email = document.personals.email.value;
-
-                    axios.get('/index.php/personals/' + name + '/' + last_name + '/' + address + '/' + phone + '/' + email)
-                        .then(response => {
-
+                    axios.post('/index.php/personals', {
+                         'name':      document.personals.name.value,
+                         'last_name': document.personals.last_name.value,
+                         'address':   document.personals.address.value,
+                         'phone' :    document.personals.phone.value,
+                         'email' :    document.personals.email.value,
+                    }).then(response => {
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
                             this.user     = response.data.user;
                             this.username = response.data.username;
-                        })
+                        }).catch(error => {
+                        if(error.response.data.errors.name){
+                            this.message = error.response.data.errors.name;
+                        }else if(error.response.data.errors.last_name){
+                            this.message = error.response.data.errors.last_name;
+                        }else if(error.response.data.errors.address){
+                            this.message = error.response.data.errors.address;
+                        }else if(error.response.data.errors.phone){
+                            this.message = error.response.data.errors.phone;
+                        }else if(error.response.data.errors.email){
+                            this.message = error.response.data.errors.email;
+                        }
+                    });
                 },
 
                 logout(){
 
-                    axios.get('/index.php/logout')
+                    axios.post('/index.php/logout')
                         .then(response => {
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
                             this.user     = response.data.user;
                             this.username = response.data.username;
-                        })
+                        });
 
                 },
 
                 login(){
 
-                    let username = document.login.username.value;
-                    let password = document.login.password.value
-
-                    axios.get('/index.php/login/' + username + '/' + password)
-                        .then(response => {
-                            this.message  = response.data.message;
-                            this.cv_step  = response.data.cv_step;
-                            this.user     = response.data.user;
-                            this.username = response.data.username;
-                        })
+                    axios.post('/index.php/login', {
+                        username: document.login.username.value,
+                        password: document.login.password.value,
+                    }).then(response => {
+                        this.message  = response.data.message;
+                        this.cv_step  = response.data.cv_step;
+                        this.user     = response.data.user;
+                        this.username = response.data.username;
+                    }).catch(error => {
+                        if(error.response.data.errors.username){
+                            this.message = error.response.data.errors.username;
+                        }else if(error.response.data.errors.password){
+                            this.message = error.response.data.errors.password;
+                        }
+                    });
                 },
 
                 registration(){
 
-                    let username = document.registration.username.value;
-                    let email    = document.registration.email.value;
-                    let password = document.registration.password.value;
-                    let passConf = document.registration.passConf.value;
-
-                    axios.get('/index.php/registration/' + username + '/' + email + '/' + password + '/' + passConf)
-                        .then(response => {
+                    axios.post('/index.php/registration', {
+                        'username': document.registration.username.value,
+                        'email':    document.registration.email.value,
+                        'password': document.registration.password.value,
+                        'passConf': document.registration.passConf.value,
+                    }).then(response => {
                             this.message  = response.data.message;
                             this.cv_step  = response.data.cv_step;
                             this.user     = response.data.user;
                             this.username = response.data.username;
-                        })
+                    }).catch(error => {
+                        if(error.response.data.errors.username){
+                            this.message = error.response.data.errors.username;
+                        }else if(error.response.data.errors.password){
+                            this.message = error.response.data.errors.password;
+                        }else if(error.response.data.errors.email){
+                            this.message = error.response.data.errors.email;
+                        }
+                    });
                 },
 
                 reg(){
@@ -360,7 +392,6 @@
                 log(){
                     this.user = 1;
                 },
-
             }
         });
     </script>

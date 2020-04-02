@@ -26,7 +26,7 @@ class SendCVLinkJob implements ShouldQueue
         $this->tableName = 'queue';
 
         /** set job for queue process*/
-        $this->onQueue('mail_sending');
+        $this->onQueue('send_email');
     }
 
     /**
@@ -36,9 +36,6 @@ class SendCVLinkJob implements ShouldQueue
      */
     public function handle()
     {
-
-
-
 //        $objArr = $this->getAll();
 //        foreach($objArr as $elem){
 //            mail($elem->email, 'CV Maker notification',

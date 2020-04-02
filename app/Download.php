@@ -8,7 +8,7 @@ use App\Jobs\SendCVLinkJob;
 
 class Download
 {
-    use TemplateBuilder, DataRepository;
+    use DataRepository, TemplateBuilder;
 
     private string $hostName = 'http://cvmaker.local';
     private Request $request;
@@ -48,7 +48,6 @@ class Download
 
         /**download the cv via user's browser*/
         $this->fileForceDownload('cv/' . $fileName);
-
     }
 
     /**
