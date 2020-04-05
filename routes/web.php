@@ -14,17 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'AppController@index');
-Route::post('/registration', 'AppController@registration');
-Route::post('/login', 'AppController@login');
-Route::post('/logout', 'AppController@logout');
 
-//Route::middleware(['CheckSession'])->group(function(){
-
+//Route::middleware(['isUser'])->group(function(){
+    Route::post('/registration', 'AppController@registration');
+    Route::post('/login', 'AppController@login');
+    Route::post('/logout', 'AppController@logout');
     Route::post('/personals', 'AppController@personals');
     Route::post('/generics', 'AppController@generics');
     Route::post('/download', 'AppController@download');
     Route::post('/reset', 'AppController@reset');
-
 //});
 
 

@@ -1,17 +1,18 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GenericDataRequestValidator;
-use App\Http\Requests\LoginRequestValidator;
 use App\Http\Requests\PersonalDataRequestValidator;
+use App\Http\Requests\GenericDataRequestValidator;
+use App\Http\Requests\FileUploadRequestValidator;
 use App\Http\Requests\RegistRequestValidator;
+use App\Http\Requests\LoginRequestValidator;
 use Illuminate\Http\Request;
-use App\Users;
+use App\Jobs\SendCVLinkJob;
 use App\Personals;
 use App\Generics;
 use App\Download;
+use App\Users;
 
 class AppController
 {
@@ -45,19 +46,20 @@ class AppController
         return (new Generics($request))->saveData();
     }
 
-    public function download(Request $request)
+    public function download(FileUploadRequestValidator $request)
     {
-        (new Download($request))->downloadCV();
+       (new Download($request))->downloadCV();
+
+        SendCVLinkJob::dispatch();
     }
 
     public function reset(Request $request)
     {
-        return[
+        return [
             'user' => -2,
             'message' => '',
             'cv_step' => 0,
             'username' => $request->session()->get('username'),
         ];
     }
-
 }

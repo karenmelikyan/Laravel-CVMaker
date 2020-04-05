@@ -16,10 +16,11 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
-//        if(!$username = $request->session()->get('username')){
-//            return Redirect::to('');
-//        }
-//
-//        return $next($request);
+        if($request->session()->get('username')){
+            return $next($request);
+        }
+
+        return Redirect::to('/');
+
     }
 }

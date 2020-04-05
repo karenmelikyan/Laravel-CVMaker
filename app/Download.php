@@ -21,39 +21,38 @@ class Download
 
     public function downloadCV(): void
     {
-        /**upload photo to buffer*/
+        /** if image file was selected */
         if($picPath = $this->photoUpload()){
             /** set current picture path in session, for correct*/
             /** template building in trait TemplateBuilder*/
             $this->request->session()->put('pic_path', $this->hostName . '/' . $picPath);
+
+            /** create template HTML template for cv*/
+            $htmlTemplate = $this->buildTemplate();
+
+            /**generate random name for cv*/
+            $fileName = $this->getRandomName() . '.html';
+
+            /**write cv to `cv` folder of project*/
+            file_put_contents('cv/' . $fileName, $htmlTemplate);
+
+            /**write eMail, & cv path in `queue` table for send*/
+            /** to user mail in queue process*/
+            $this->addOne([
+                'email' => $this->request->session()->get('email'),
+                'cv_path' => $this->hostName . '/cv/' . $fileName,
+            ]);
+
+            /**download the cv via user's browser*/
+            $this->fileForceDownload('cv/' . $fileName);
         }
-        /**create template HTML template for cv*/
-        $htmlTemplate = $this->buildTemplate();
 
-        /**generate random name for cv*/
-        $fileName = $this->generateRandomFileName() . '.html';
-
-        /**write cv to `cv` folder of project*/
-        file_put_contents('cv/' . $fileName, $htmlTemplate);
-
-        /**write eMail, & cv path in `queue` table for send*/
-        /** to user mail in queue process*/
-        $this->addOne([
-            'email'   => $this->request->session()->get('email'),
-            'cv_path' => $this->hostName . '/cv/' . $fileName,
-        ]);
-
-        /**turn on email queue process*/
-        SendCVLinkJob::dispatch();
-
-        /**download the cv via user's browser*/
-        $this->fileForceDownload('cv/' . $fileName);
     }
 
     /**
      * @return string
      */
-    private function generateRandomFileName(): string
+    private function getRandomName(): string
     {
         return substr(md5(rand()), 0, 10);
     }
@@ -79,7 +78,6 @@ class Download
             header('Content-Length: ' . filesize($filePath));
             /** read file and send it to user*/
             readfile($filePath);
-            exit;
         }
     }
 
@@ -98,7 +96,7 @@ class Download
 
         /**Check if the uploaded file extension is allowed*/
         if (in_array($extUpload, $extsAllowed) ) {
-            $_FILES['file']['name'] = $this->generateRandomFileName() . '.jpg';
+            $_FILES['file']['name'] = $this->getRandomName() . '.jpg';
             $picPath = "pic/{$_FILES['file']['name']}";
             /**Upload the file on the server*/
             if(move_uploaded_file($_FILES['file']['tmp_name'], $picPath)){

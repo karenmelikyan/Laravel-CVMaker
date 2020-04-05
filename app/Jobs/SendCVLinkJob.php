@@ -36,6 +36,7 @@ class SendCVLinkJob implements ShouldQueue
      */
     public function handle()
     {
+
 //        $objArr = $this->getAll();
 //        foreach($objArr as $elem){
 //            mail($elem->email, 'CV Maker notification',
