@@ -24,7 +24,7 @@ class Generics
     /**
      * @return array|null
      */
-    public function saveData(): ?array
+    public function saveData(): array
     {
         if($this->save()){
             return  $this->generateOk();

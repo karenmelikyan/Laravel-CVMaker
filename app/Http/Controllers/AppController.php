@@ -16,6 +16,7 @@ use App\Users;
 
 class AppController
 {
+
     public function index(Request $request)
     {
         return view('content');

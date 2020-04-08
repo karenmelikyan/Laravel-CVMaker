@@ -30,3 +30,4 @@ class GenericDataRequestValidator extends FormRequest
         ];
     }
 }
+

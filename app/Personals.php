@@ -24,7 +24,7 @@ class Personals
     /**
      * @return array|null
      */
-    public function saveData(): array //?array
+    public function saveData(): array
     {
         if($this->save()){
             return  $this->generateOk();

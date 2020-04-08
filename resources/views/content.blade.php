@@ -292,13 +292,7 @@
                                 this.user     = response.data.user;
                                 this.username = response.data.username;
                             }).catch(error => {
-                            if(error.response.data.errors.about){
-                                this.message = error.response.data.errors.about;
-                            }else if(error.response.data.errors.experience){
-                                this.message = error.response.data.errors.experience;
-                            }else if(error.response.data.errors.skills){
-                                this.message = error.response.data.errors.skills;
-                            }
+                                this.message = this.getError(error.response.data.errors);
                         });
                     },
 
@@ -316,17 +310,7 @@
                                 this.user     = response.data.user;
                                 this.username = response.data.username;
                             }).catch(error => {
-                            if(error.response.data.errors.name){
-                                this.message = error.response.data.errors.name;
-                            }else if(error.response.data.errors.last_name){
-                                this.message = error.response.data.errors.last_name;
-                            }else if(error.response.data.errors.address){
-                                this.message = error.response.data.errors.address;
-                            }else if(error.response.data.errors.phone){
-                                this.message = error.response.data.errors.phone;
-                            }else if(error.response.data.errors.email){
-                                this.message = error.response.data.errors.email;
-                            }
+                                this.message = this.getError(error.response.data.errors);
                         });
                     },
 
@@ -353,11 +337,7 @@
                             this.user     = response.data.user;
                             this.username = response.data.username;
                         }).catch(error => {
-                            if(error.response.data.errors.username){
-                                this.message = error.response.data.errors.username;
-                            }else if(error.response.data.errors.password){
-                                this.message = error.response.data.errors.password;
-                            }
+                            this.message = this.getError(error.response.data.errors);
                         });
                     },
 
@@ -374,13 +354,7 @@
                                 this.user     = response.data.user;
                                 this.username = response.data.username;
                         }).catch(error => {
-                            if(error.response.data.errors.username){
-                                this.message = error.response.data.errors.username;
-                            }else if(error.response.data.errors.password){
-                                this.message = error.response.data.errors.password;
-                            }else if(error.response.data.errors.email){
-                                this.message = error.response.data.errors.email;
-                            }
+                            this.message = this.getError(error.response.data.errors);
                         });
                     },
 
@@ -390,6 +364,16 @@
 
                     log(){
                         this.user = 1;
+                    },
+
+                    /**
+                     * service function for
+                     * error defining
+                     */
+                    getError(error){
+                        for(let key in error){
+                            return error[key][0];
+                        }
                     },
                 }
             });

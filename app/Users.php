@@ -114,11 +114,8 @@ class Users
      */
     private function getUserEmail(): ?string
     {
-        $arr = $this->getByFieldValue('username', $this->request->username)->all();
-        foreach ($arr as $elem){
-            if($elem->email){
-                return $elem->email;
-            }
+        if($arr = $this->getByFieldValue('username', $this->request->username)){
+            return $arr[0]->email;
         }
 
         return null;
@@ -129,11 +126,8 @@ class Users
      */
     private function getUserId(): ?int
     {
-        $arr = $this->getByFieldValue('username', $this->request->username)->all();
-        foreach ($arr as $elem){
-            if($elem->id){
-               return $elem->id;
-            }
+        if($arr = $this->getByFieldValue('username', $this->request->username)){
+            return $arr[0]->id;
         }
 
         return null;
@@ -146,9 +140,8 @@ class Users
      */
     private function isPasswordMatch(string $username, string $password): bool
     {
-        $arr = $this->getByFieldValue('username', $this->request->username)->all();
-        foreach($arr as $elem) {
-            if(Hash::check($password, $elem->passwordHash)){
+        if($arr = $this->getByFieldValue('username', $this->request->username)){
+            if(Hash::check($password, $arr[0]->passwordHash)){
                 return true;
             }
         }
